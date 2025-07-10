@@ -1,1 +1,46 @@
+body {
+  font-family: 'Roboto', sans-serif;
+  background-color: #f4f4f4;
+}
+
+nav.navbar {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.card {
+  font-size: 2rem;
+  cursor: pointer;
+  border-radius: 12px;
+  transition: transform 0.3s ease;
+  user-select: none;
+}
+
+.card:hover {
+  transform: scale(1.1);
+  background-color: #fefefe;
+}
+
+.card:nth-child(odd) {
+  background-color: #e7f1ff;
+}
+
+.card:nth-child(even) {
+  background-color: #fff3e7;
+}
+
+footer a {
+  color: #ffc107;
+  margin: 0 5px;
+  text-decoration: none;
+}
+
+footer a:hover {
+  text-decoration: underline;
+}
+
+input#userName {
+  padding: 0.4em;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
 
