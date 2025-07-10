@@ -1,84 +1,68 @@
 $(document).ready(function () {
-  const emojis = ["🍎", "🍌", "🍇", "🍓", "🍍", "🍉", "🍒", "🥝"];
-  let cardData = [];
-  let firstCard = null;
-  let secondCard = null;
+  const emojis = ["😀", "🐶", "🌟", "🍕", "🚗", "🎈", "🌈", "🏀"];
+  let cards = [...emojis, ...emojis];
   let score = 0;
+  let flippedCards = [];
+  let matchedCards = [];
 
   function shuffle(array) {
-    return array.sort(() => Math.random() - 0.5);
+    return array.sort(() => 0.5 - Math.random());
   }
 
-  function initGame() {
-    const doubled = [...emojis, ...emojis];
-    const shuffled = shuffle(doubled);
-    cardData = shuffled.map((emoji, index) => ({
-      id: index,
-      emoji,
-      matched: false
-    }));
-    score = 0;
-    $('#score').text(score);
-    renderBoard();
-  }
-
-  function renderBoard() {
-    const board = $('#gameBoard');
+  function renderCards() {
+    const board = $("#gameBoard");
     board.empty();
-    cardData.forEach(card => {
-      const cardDiv = $(`<div class="card bg-light text-center p-4 border" data-id="${card.id}">❓</div>`);
-      cardDiv.on('click', () => flipCard(card.id));
-      board.append(cardDiv);
+    shuffled = shuffle(cards);
+    shuffled.forEach((emoji, index) => {
+      board.append(`<div class="card" data-emoji="${emoji}" data-id="${index}">❓</div>`);
     });
   }
 
-  function flipCard(id) {
-    const card = cardData.find(c => c.id === id);
-    if (card.matched || card === firstCard || secondCard) return;
-
-    $(`[data-id='${id}']`).text(card.emoji);
-
-    if (!firstCard) {
-      firstCard = card;
-    } else {
-      secondCard = card;
-      setTimeout(checkMatch, 700);
-    }
+  function resetGame() {
+    score = 0;
+    flippedCards = [];
+    matchedCards = [];
+    $("#score").text(score);
+    renderCards();
   }
 
-  function checkMatch() {
-    if (firstCard.emoji === secondCard.emoji) {
-      firstCard.matched = true;
-      secondCard.matched = true;
-      score++;
-      $('#score').text(score);
-    } else {
-      $(`[data-id='${firstCard.id}']`).text('❓');
-      $(`[data-id='${secondCard.id}']`).text('❓');
+  $(document).on("click", ".card", function () {
+    const emoji = $(this).data("emoji");
+    const id = $(this).data("id");
+    if (matchedCards.includes(id) || flippedCards.includes(id)) return;
+
+    $(this).text(emoji);
+    flippedCards.push(id);
+
+    if (flippedCards.length === 2) {
+      const [first, second] = flippedCards;
+      const firstCard = $(`.card[data-id='${first}']`);
+      const secondCard = $(`.card[data-id='${second}']`);
+
+      if (firstCard.data("emoji") === secondCard.data("emoji")) {
+        matchedCards.push(first, second);
+        firstCard.addClass("matched");
+        secondCard.addClass("matched");
+        score += 10;
+        $("#score").text(score);
+      } else {
+        setTimeout(() => {
+          firstCard.text("❓");
+          secondCard.text("❓");
+        }, 1000);
+      }
+      flippedCards = [];
     }
-    firstCard = null;
-    secondCard = null;
-  }
+  });
 
-  $('#startBtn').on('click', function () {
-    const name = $('#userName').val();
-    if (name.trim() !== "") {
-      $('#greeting').text(`Hello, ${name}! Let's play.`);
-      $('#gameSection').removeClass('d-none');
-      initGame();
-      console.log("💡 Hint: Click the 🎉 icon in the top left corner for an easter egg!");
+  $("#startBtn").click(function () {
+    const name = $("#userName").val();
+    if (name.trim()) {
+      $("#greeting").text(`Hello, ${name}! Let's play!`);
+      $("#gameSection").removeClass("d-none");
+      resetGame();
     }
   });
 
-  $('#resetBtn').on('click', function () {
-    initGame();
-  });
-
-  // Easter Egg
-  $('.navbar-brand').on('click', function () {
-    alert('🎉 Easter Egg Unlocked! Auto-matching mode ON');
-    cardData.forEach(card => card.matched = true);
-    renderBoard();
-  });
+  $("#resetBtn").click(resetGame);
 });
-
