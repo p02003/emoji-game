@@ -1,1 +1,32 @@
+<nav class="navbar navbar-expand-lg bg-primary navbar-dark">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="#">Emoji Match Game</a>
+  </div>
+</nav>
 
+<main class="container my-4">
+  <section>
+    <h2>Welcome to Emoji Match!</h2>
+    <p>Enter your name to begin:</p>
+    <input type="text" id="userName" placeholder="Your name...">
+    <button id="startBtn" class="btn btn-success">Start Game</button>
+    <p id="greeting" class="mt-3"></p>
+  </section>
+
+  <section id="gameSection" class="mt-4 d-none">
+    <h3>Match the emojis! 🧠</h3>
+    <p id="instructions">Flip two cards to find the matching emojis.</p>
+    <div id="gameBoard" class="row row-cols-4 g-3 mt-3"></div>
+    <p>Score: <span id="score">0</span></p>
+    <button id="resetBtn" class="btn btn-warning">Reset Game</button>
+  </section>
+</main>
+
+<footer class="bg-dark text-light text-center p-3 mt-5">
+  <a href="#">Dev Profile</a> |
+  <a href="#">Source Code</a> |
+  <a href="#">Play Game</a> |
+  <a href="#">GitHub Profile</a> |
+  <a href="#">Check Validity</a> |
+  <a href="#">Accessibility Report</a>
+</footer>
