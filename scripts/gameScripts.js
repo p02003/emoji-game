@@ -12,9 +12,9 @@ $(document).ready(function () {
   function renderCards() {
     const board = $("#gameBoard");
     board.empty();
-    shuffled = shuffle(cards);
+    const shuffled = shuffle(cards.slice());
     shuffled.forEach((emoji, index) => {
-      board.append(`<div class="card" data-emoji="${emoji}" data-id="${index}">❓</div>`);
+      board.append(`<div class="card" data-emoji="${emoji}" data-id="${index}" tabindex="0" role="button" aria-label="Card">❓</div>`);
     });
   }
 
@@ -29,6 +29,7 @@ $(document).ready(function () {
   $(document).on("click", ".card", function () {
     const emoji = $(this).data("emoji");
     const id = $(this).data("id");
+
     if (matchedCards.includes(id) || flippedCards.includes(id)) return;
 
     $(this).text(emoji);
@@ -51,6 +52,7 @@ $(document).ready(function () {
           secondCard.text("❓");
         }, 1000);
       }
+
       flippedCards = [];
     }
   });
@@ -64,5 +66,28 @@ $(document).ready(function () {
     }
   });
 
-  $("#resetBtn").click(resetGame);
+  $("#resetBtn").click(function (e) {
+    e.preventDefault();
+    resetGame();
+  });
+
+  // Wireframe Modal
+  const modal = document.getElementById('wireframeModal');
+  const wireframeLink = document.getElementById('wireframeLink');
+  const closeBtn = document.getElementById('closeModal');
+
+  wireframeLink.addEventListener('click', function (e) {
+    e.preventDefault();
+    modal.style.display = 'block';
+  });
+
+  closeBtn.addEventListener('click', function () {
+    modal.style.display = 'none';
+  });
+
+  window.addEventListener('click', function (event) {
+    if (event.target == modal) {
+      modal.style.display = 'none';
+    }
+  });
 });
