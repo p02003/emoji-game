@@ -71,23 +71,23 @@ $(document).ready(function () {
     resetGame();
   });
 
-  // Wireframe Modal
-  const modal = document.getElementById('wireframeModal');
-  const wireframeLink = document.getElementById('wireframeLink');
-  const closeBtn = document.getElementById('closeModal');
+  // 🖼️ Wireframe Modal Logic
+  const modal = document.getElementById("wireframeModal");
+  const wireframeLink = document.getElementById("wireframeLink");
+  const closeBtn = document.getElementById("closeModal");
 
-  wireframeLink.addEventListener('click', function (e) {
+  wireframeLink.addEventListener("click", function (e) {
     e.preventDefault();
-    modal.style.display = 'block';
+    modal.style.display = "block";
   });
 
-  closeBtn.addEventListener('click', function () {
-    modal.style.display = 'none';
+  closeBtn.addEventListener("click", function () {
+    modal.style.display = "none";
   });
 
-  window.addEventListener('click', function (event) {
-    if (event.target == modal) {
-      modal.style.display = 'none';
+  window.addEventListener("click", function (event) {
+    if (event.target === modal) {
+      modal.style.display = "none";
     }
   });
 });
